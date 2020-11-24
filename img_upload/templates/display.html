@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="temp">
+    {% for image in data %}
+    <button onclick="editText({{image.pk}})">Edit</button>
+    <form action="/insta/edit_text" method="POST">
+        {% csrf_token %}
+        <input type="text" value={{image.img_name}} id="{{image.pk}}" name="title" disabled/>
+        <input type="number" value="{{image.pk}}" name="primary_key" id ="primary_key" hidden />
+        <button type="submit">Change</button>
+    </form>
+    <h3>OCR</h3>
+    <h3>{{image.ocr}}</h3>
+
+    <img src="{{image.image.url}}">
+    <form action="/insta/delete" method="POST">
+        {% csrf_token %}
+        <input type="number" value="{{image.pk}}" name="primary_key" id ="primary_key" hidden />
+        <button type="submit" >Delete</button>
+    </form>
+    <br><br><br>
+    {%endfor%}
+    </div>
+
+    <script>
+        function editText(id) 
+        {
+          document.getElementById(id).disabled = false;
+        }
+    </script>
+
+
+</body>
+</html>
